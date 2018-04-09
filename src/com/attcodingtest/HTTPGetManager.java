@@ -15,7 +15,7 @@ import org.codehaus.jackson.JsonParser;
 import org.codehaus.jackson.JsonToken;
 import org.codehaus.jackson.map.ObjectMapper;
 
-import com.attcodingtest.Employee;
+import com.attcodingtest.Number;
 
 public class HTTPGetManager {
 
@@ -41,45 +41,42 @@ public class HTTPGetManager {
 		return jsonStr.toString();
 	}
 
-	public List<Employee> parseEmployeeData(String json) throws JsonParseException, IOException {
-		List<Employee> employees = new ArrayList<Employee>();
+	public List<Number> parseNumberData(String json) throws JsonParseException, IOException {
+		List<Number> numbers = new ArrayList<Number>();
 		ObjectMapper objectMapper = new ObjectMapper();
 		JsonFactory f = new JsonFactory();
 		JsonParser jp = f.createJsonParser(json);
 		jp.nextToken();
 		while (jp.nextToken() == JsonToken.START_OBJECT) {
-			Employee emp = objectMapper.readValue(jp, Employee.class);
-			employees.add(emp);
-			System.out.println(emp);
+			Number num = objectMapper.readValue(jp, Number.class);
+			numbers.add(num);
+			System.out.println(num);
 		}
 
-		return employees;
+		return numbers;
 	}
 
-	public double calculateTotalSalary(List<Employee> employees) {
-		double totalSal = 0;
+	public double calculateTotalNumber(List<Number> numbers) {
+		double totalNum = 0;
 
-		if (employees != null && employees.isEmpty() == false) {
-			for (Employee employee : employees) {
-				totalSal += employee.getEmployee_salary();
+		if (numbers != null && numbers.isEmpty() == false) {
+			for (Number number : numbers) {
+				totalNum += number.getNumber();
 			}
 		}
 
-		return totalSal;
+		return totalNum;
 	}
 
 	public void init(String url) {
-		//String url = "http://www.mocky.io/v2/5ac6fee24a000034007e0896";
+		//String url = "http://www.mocky.io/v2/5acb992e2f00000e004116c2";
 		try {
 			String json = readEndPoint(url);
-			List<Employee> employees = parseEmployeeData(json);
-			//System.out.println(employees);
-			double totalSal = calculateTotalSalary(employees);
+			List<Number> numbers = parseNumberData(json);
+			double totalSal = calculateTotalNumber(numbers);
 
-			//System.out.println("Total Salary of Employees is : " + totalSal);
-			
 			String formatted = formatter.format(totalSal);
-			System.out.println("Total Salary of Employees is : " +formatted); // prints 2.46
+			System.out.println("Total Number is : " +formatted); // prints 2.46
 
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
